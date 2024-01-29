@@ -1,9 +1,23 @@
+import { useEffect, useState } from 'react'
 import { HStack, Image, Pressable, Text, VStack } from '@gluestack-ui/themed'
 import CoffeeGrains from '@assets/coffee-grains.png'
 import { MapPin, ShoppingCart } from 'phosphor-react-native'
 import { RootInput } from '@components/Input'
+import { getCoffees } from '@data/coffees'
+import { CoffeeDTO } from '@dtos/CoffeeDTO'
 
 export function Catalog() {
+  const [coffees, setCoffees] = useState<CoffeeDTO[]>([])
+
+  async function fetchData() {
+    const data = await getCoffees()
+    setCoffees(data)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   return (
     <VStack flex={1}>
       <VStack h={384} bgColor="$gray_100">
