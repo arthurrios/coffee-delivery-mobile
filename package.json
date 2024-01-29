@@ -11,22 +11,25 @@
   "dependencies": {
     "@expo-google-fonts/baloo-2": "^0.2.3",
     "@expo-google-fonts/roboto": "^0.2.3",
+    "@expo/metro-runtime": "~3.1.1",
     "@gluestack-style/react": "^1.0.43",
     "@gluestack-ui/config": "^1.1.1",
     "@gluestack-ui/themed": "^1.1.0",
     "expo": "~50.0.3",
     "expo-font": "~11.10.2",
+    "expo-image": "~1.10.5",
     "expo-status-bar": "~1.11.1",
     "phosphor-react-native": "^2.0.0",
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-svg": "^13.4.0",
-    "react-native-svg-transformer": "^1.3.0",
-    "@expo/metro-runtime": "~3.1.1"
+    "react-native-svg-transformer": "^1.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@rocketseat/eslint-config": "^2.1.0",
     "@types/react": "~18.2.45",
+    "babel-plugin-module-resolver": "^5.0.0",
     "typescript": "^5.1.3"
   },
   "private": true
