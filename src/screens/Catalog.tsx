@@ -5,9 +5,13 @@ import { MapPin, ShoppingCart } from 'phosphor-react-native'
 import { RootInput } from '@components/Input'
 import { getCoffees } from '@data/coffees'
 import { CoffeeDTO } from '@dtos/CoffeeDTO'
+import { FlatList } from 'react-native'
+import { CarouselCard } from '@components/CarouselCard'
+import { StatusBar } from 'expo-status-bar'
 
 export function Catalog() {
   const [coffees, setCoffees] = useState<CoffeeDTO[]>([])
+  const [featured, setFeatured] = useState<CoffeeDTO[]>([])
 
   async function fetchData() {
     const data = await getCoffees()
@@ -18,8 +22,26 @@ export function Catalog() {
     fetchData()
   }, [])
 
+  useEffect(() => {
+    function filterOnePerCategory() {
+      const uniqueCategories = new Set()
+      const filteredData = []
+
+      for (const item of coffees) {
+        if (!uniqueCategories.has(item.category)) {
+          uniqueCategories.add(item.category)
+          filteredData.push(item)
+        }
+      }
+      setFeatured(filteredData)
+    }
+
+    filterOnePerCategory()
+  }, [coffees])
+
   return (
     <VStack flex={1}>
+      <StatusBar style="light" />
       <VStack h={384} bgColor="$gray_100">
         <Image
           position="absolute"
@@ -57,6 +79,27 @@ export function Catalog() {
           <RootInput placeholder="Search" />
         </VStack>
       </VStack>
+      <FlatList
+        data={featured}
+        keyExtractor={(item) => item.name}
+        renderItem={({ item, index }) => <CarouselCard data={item} />}
+        contentContainerStyle={{
+          gap: 32,
+          paddingHorizontal: 32,
+          paddingTop: 34,
+        }}
+        horizontal
+        style={{
+          position: 'absolute',
+          zIndex: 20,
+          flex: 1,
+          top: 264,
+          width: '100%',
+        }}
+        snapToInterval={176}
+        decelerationRate={'fast'}
+        showsHorizontalScrollIndicator={false}
+      />
     </VStack>
   )
 }
