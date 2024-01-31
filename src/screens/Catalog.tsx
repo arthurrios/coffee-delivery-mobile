@@ -8,10 +8,26 @@ import { CoffeeDTO } from '@dtos/CoffeeDTO'
 import { FlatList } from 'react-native'
 import { CarouselCard } from '@components/CarouselCard'
 import { StatusBar } from 'expo-status-bar'
+import { Tag } from '@components/Tag'
 
 export function Catalog() {
   const [coffees, setCoffees] = useState<CoffeeDTO[]>([])
   const [featured, setFeatured] = useState<CoffeeDTO[]>([])
+  const [categories, setCategories] = useState<string[]>([])
+
+  function handleCategories(category: string) {
+    const categoryAlreadySelected = categories.includes(category)
+
+    if (categoryAlreadySelected) {
+      setCategories((prevState) =>
+        prevState.filter((item) => item !== category),
+      )
+    } else if (categories.length === 2 && !categoryAlreadySelected) {
+      setCategories([])
+    } else {
+      setCategories((prevState) => [...prevState, category])
+    }
+  }
 
   async function fetchData() {
     const data = await getCoffees()
@@ -100,6 +116,30 @@ export function Catalog() {
         decelerationRate={'fast'}
         showsHorizontalScrollIndicator={false}
       />
+      <VStack pt={216} px="$8">
+        <VStack py="$4" gap="$3">
+          <Text fontFamily="$heading" color="$gray_300" fontSize="$md">
+            Our coffees
+          </Text>
+          <HStack gap="$2">
+            <Tag
+              title="traditional"
+              isSelected={categories.includes('traditional')}
+              onPress={() => handleCategories('traditional')}
+            />
+            <Tag
+              title="sweet"
+              isSelected={categories.includes('sweet')}
+              onPress={() => handleCategories('sweet')}
+            />
+            <Tag
+              title="special"
+              isSelected={categories.includes('special')}
+              onPress={() => handleCategories('special')}
+            />
+          </HStack>
+        </VStack>
+      </VStack>
     </VStack>
   )
 }
