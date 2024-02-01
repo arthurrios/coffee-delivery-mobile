@@ -1,17 +1,33 @@
 import { useEffect, useState } from 'react'
-import { HStack, Image, Pressable, Text, VStack } from '@gluestack-ui/themed'
+import {
+  HStack,
+  Image,
+  Pressable,
+  SectionList,
+  Text,
+  VStack,
+  View,
+} from '@gluestack-ui/themed'
 import CoffeeGrains from '@assets/coffee-grains.png'
 import { MapPin, ShoppingCart } from 'phosphor-react-native'
 import { RootInput } from '@components/Input'
 import { getCoffees } from '@data/coffees'
 import { CoffeeDTO } from '@dtos/CoffeeDTO'
-import { FlatList } from 'react-native'
+import { FlatList, SectionListRenderItemInfo } from 'react-native'
 import { CarouselCard } from '@components/CarouselCard'
 import { StatusBar } from 'expo-status-bar'
 import { Tag } from '@components/Tag'
+import { groupCoffeesByCategory } from '@utils/groupCoffeesByCategory'
+import { CoffeeCard } from '@components/CoffeeCard'
+
+export type CoffeeSection = {
+  title: string
+  data: CoffeeDTO[]
+}
 
 export function Catalog() {
   const [coffees, setCoffees] = useState<CoffeeDTO[]>([])
+  const [groupedCoffees, setGroupedCoffees] = useState<CoffeeSection[]>([])
   const [featured, setFeatured] = useState<CoffeeDTO[]>([])
   const [categories, setCategories] = useState<string[]>([])
 
@@ -32,6 +48,7 @@ export function Catalog() {
   async function fetchData() {
     const data = await getCoffees()
     setCoffees(data)
+    setGroupedCoffees(groupCoffeesByCategory(data))
   }
 
   useEffect(() => {
@@ -56,90 +73,131 @@ export function Catalog() {
   }, [coffees])
 
   return (
-    <VStack flex={1}>
-      <StatusBar style="light" />
-      <VStack h={384} bgColor="$gray_100">
-        <Image
-          position="absolute"
-          right="$2"
-          bottom={68}
-          source={CoffeeGrains}
-          alt="coffee-grains"
-        />
-        <HStack
-          mt="$12"
-          justifyContent="space-between"
-          alignItems="center"
-          py="$4"
-          px="$8"
-        >
-          <HStack alignItems="center" gap="$1">
-            <MapPin size={20} weight="fill" color="#8047F8" />
-            <Text fontFamily="$body" fontSize="$sm" color="$gray_900">
-              Brasília, DF
-            </Text>
-          </HStack>
-          <Pressable h="$8" w="$8" alignItems="center" justifyContent="center">
-            <ShoppingCart size={20} weight="fill" color="#C47F17" />
-          </Pressable>
-        </HStack>
-        <VStack mt="$5" px="$8" gap="$4">
+    <SectionList
+      bounces={false}
+      ListHeaderComponentStyle={{ marginBottom: 12 }}
+      ListHeaderComponent={() => (
+        <>
+          <StatusBar style="light" backgroundColor="" />
+          <VStack h={384} bgColor="$gray_100">
+            <Image
+              position="absolute"
+              right="$2"
+              bottom={68}
+              source={CoffeeGrains}
+              alt="coffee-grains"
+            />
+            <HStack
+              mt="$12"
+              justifyContent="space-between"
+              alignItems="center"
+              py="$4"
+              px="$8"
+            >
+              <HStack alignItems="center" gap="$1">
+                <MapPin size={20} weight="fill" color="#8047F8" />
+                <Text fontFamily="$body" fontSize="$sm" color="$gray_900">
+                  Brasília, DF
+                </Text>
+              </HStack>
+              <Pressable
+                h="$8"
+                w="$8"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <ShoppingCart size={20} weight="fill" color="#C47F17" />
+              </Pressable>
+            </HStack>
+            <VStack mt="$5" px="$8" gap="$4">
+              <Text
+                color="$white"
+                fontFamily="$heading"
+                fontSize="$xl"
+                lineHeight="$lg"
+              >
+                Find the perfect coffee for every occasion
+              </Text>
+              <RootInput placeholder="Search" />
+            </VStack>
+          </VStack>
+
+          <FlatList
+            data={featured}
+            keyExtractor={(item) => item.name}
+            renderItem={({ item, index }) => <CarouselCard data={item} />}
+            contentContainerStyle={{
+              gap: 32,
+              paddingHorizontal: 32,
+              paddingTop: 34,
+            }}
+            horizontal
+            style={{
+              position: 'absolute',
+              zIndex: 20,
+              flex: 1,
+              top: 264,
+              width: '100%',
+            }}
+            snapToInterval={176}
+            decelerationRate={'fast'}
+            showsHorizontalScrollIndicator={false}
+          />
+          <VStack pt={216} px="$8">
+            <VStack py="$4" gap="$3">
+              <Text fontFamily="$heading" color="$gray_300" fontSize="$md">
+                Our coffees
+              </Text>
+              <HStack gap="$2">
+                <Tag
+                  title="traditional"
+                  isSelected={categories.includes('traditional')}
+                  onPress={() => handleCategories('traditional')}
+                />
+                <Tag
+                  title="sweet"
+                  isSelected={categories.includes('sweet')}
+                  onPress={() => handleCategories('sweet')}
+                />
+                <Tag
+                  title="special"
+                  isSelected={categories.includes('special')}
+                  onPress={() => handleCategories('special')}
+                />
+              </HStack>
+            </VStack>
+          </VStack>
+        </>
+      )}
+      sections={groupedCoffees}
+      keyExtractor={(item, index) =>
+        (item as CoffeeDTO).name + index.toString()
+      }
+      renderSectionHeader={({
+        section,
+      }: SectionListRenderItemInfo<CoffeeDTO, CoffeeSection>) => (
+        <View px="$8">
           <Text
-            color="$white"
+            fontSize="$sm"
+            textTransform="capitalize"
             fontFamily="$heading"
-            fontSize="$xl"
-            lineHeight="$lg"
+            color="$gray_400"
           >
-            Find the perfect coffee for every occasion
+            {section.title}
           </Text>
-          <RootInput placeholder="Search" />
-        </VStack>
-      </VStack>
-      <FlatList
-        data={featured}
-        keyExtractor={(item) => item.name}
-        renderItem={({ item, index }) => <CarouselCard data={item} />}
-        contentContainerStyle={{
-          gap: 32,
-          paddingHorizontal: 32,
-          paddingTop: 34,
-        }}
-        horizontal
-        style={{
-          position: 'absolute',
-          zIndex: 20,
-          flex: 1,
-          top: 264,
-          width: '100%',
-        }}
-        snapToInterval={176}
-        decelerationRate={'fast'}
-        showsHorizontalScrollIndicator={false}
-      />
-      <VStack pt={216} px="$8">
-        <VStack py="$4" gap="$3">
-          <Text fontFamily="$heading" color="$gray_300" fontSize="$md">
-            Our coffees
-          </Text>
-          <HStack gap="$2">
-            <Tag
-              title="traditional"
-              isSelected={categories.includes('traditional')}
-              onPress={() => handleCategories('traditional')}
-            />
-            <Tag
-              title="sweet"
-              isSelected={categories.includes('sweet')}
-              onPress={() => handleCategories('sweet')}
-            />
-            <Tag
-              title="special"
-              isSelected={categories.includes('special')}
-              onPress={() => handleCategories('special')}
-            />
-          </HStack>
-        </VStack>
-      </VStack>
-    </VStack>
+        </View>
+      )}
+      renderItem={({
+        item,
+        index,
+        section,
+      }: SectionListRenderItemInfo<CoffeeDTO, CoffeeSection>) => (
+        <View px="$8" mb={index === section.data.length - 1 ? 48 : 0}>
+          <CoffeeCard data={item} />
+        </View>
+      )}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 8 }}
+    />
   )
 }

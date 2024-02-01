@@ -1,14 +1,15 @@
 import { CoffeeDTO } from '@dtos/CoffeeDTO'
-import { HStack, Image, Text, View } from '@gluestack-ui/themed'
+import { HStack, Image, Pressable, Text, View } from '@gluestack-ui/themed'
+import { PressableProps } from 'react-native'
 
-type Props = {
+type Props = PressableProps & {
   data: CoffeeDTO
 }
 
 export function CarouselCard({ data }: Props) {
   if (data) {
     return (
-      <View
+      <Pressable
         alignItems="center"
         w={208}
         pt="$24"
@@ -87,7 +88,7 @@ export function CarouselCard({ data }: Props) {
             {data.price.toFixed(2)}
           </Text>
         </HStack>
-      </View>
+      </Pressable>
     )
   }
 }
