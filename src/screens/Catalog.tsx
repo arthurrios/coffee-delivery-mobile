@@ -19,6 +19,7 @@ import { StatusBar } from 'expo-status-bar'
 import { Tag } from '@components/Tag'
 import { groupCoffeesByCategory } from '@utils/groupCoffeesByCategory'
 import { CoffeeCard } from '@components/CoffeeCard'
+import { Cart } from '@components/Cart'
 
 export type CoffeeSection = {
   title: string
@@ -74,7 +75,6 @@ export function Catalog() {
 
   return (
     <SectionList
-      bounces={false}
       ListHeaderComponentStyle={{ marginBottom: 12 }}
       ListHeaderComponent={() => (
         <>
@@ -100,14 +100,7 @@ export function Catalog() {
                   Brasília, DF
                 </Text>
               </HStack>
-              <Pressable
-                h="$8"
-                w="$8"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <ShoppingCart size={20} weight="fill" color="#C47F17" />
-              </Pressable>
+              <Cart />
             </HStack>
             <VStack mt="$5" px="$8" gap="$4">
               <Text

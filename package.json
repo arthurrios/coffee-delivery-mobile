@@ -15,15 +15,16 @@
     "@gluestack-style/react": "^1.0.43",
     "@gluestack-ui/config": "^1.1.1",
     "@gluestack-ui/themed": "^1.1.0",
-    "expo": "~50.0.3",
+    "expo": "~50.0.5",
     "expo-font": "~11.10.2",
     "expo-image": "~1.10.5",
     "expo-status-bar": "~1.11.1",
     "phosphor-react-native": "^2.0.0",
     "react": "18.2.0",
     "react-native": "0.73.2",
-    "react-native-svg": "^13.4.0",
-    "react-native-svg-transformer": "^1.3.0"
+    "react-native-svg": "14.1.0",
+    "react-native-svg-transformer": "^1.3.0",
+    "react-native-reanimated": "~3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

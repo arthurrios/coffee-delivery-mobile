@@ -6,7 +6,7 @@ type Props = PressableProps & {
   isSelected?: boolean
 }
 
-export function Tag({ title, isSelected = false, ...props }: Props) {
+export function Label({ title, isSelected = false, ...props }: Props) {
   return (
     <Pressable
       {...props}
@@ -14,16 +14,16 @@ export function Tag({ title, isSelected = false, ...props }: Props) {
       justifyContent="center"
       px="$3"
       py={6}
-      rounded="$full"
-      bgColor={!isSelected ? 'transparent' : '$purple'}
-      borderWidth={!isSelected ? 1 : 0}
+      rounded="$md"
+      bgColor={isSelected ? 'transparent' : '$gray_700'}
+      borderWidth={isSelected ? 1 : 0}
       borderColor="$purple"
+      flex={1}
     >
       <Text
-        color={!isSelected ? '$purple_dark' : '$white'}
-        fontFamily="$mono"
-        fontSize="$2xs"
-        textTransform="uppercase"
+        color={!isSelected ? '$gray_300' : '$purple'}
+        fontFamily={isSelected ? '$mono' : '$body'}
+        fontSize="$sm"
         fontWeight="$bold"
       >
         {title}
