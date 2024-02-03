@@ -27,7 +27,7 @@ export function ButtonYellow({ title, ...props }: Props) {
       h={46}
       px="$2"
       py="$3"
-      // flex={1}
+      alignItems="center"
       {...props}
     >
       <Text

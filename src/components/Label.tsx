@@ -16,8 +16,8 @@ export function Label({ title, isSelected = false, ...props }: Props) {
       py={6}
       rounded="$md"
       bgColor={isSelected ? 'transparent' : '$gray_700'}
-      borderWidth={isSelected ? 1 : 0}
-      borderColor="$purple"
+      borderWidth={1}
+      borderColor={isSelected ? '$purple' : '$gray_700'}
       flex={1}
     >
       <Text

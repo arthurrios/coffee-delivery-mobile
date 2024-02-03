@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react'
 import {
   HStack,
   Image,
-  Pressable,
   SectionList,
   Text,
   VStack,
   View,
 } from '@gluestack-ui/themed'
 import CoffeeGrains from '@assets/coffee-grains.png'
-import { MapPin, ShoppingCart } from 'phosphor-react-native'
+import { MapPin } from 'phosphor-react-native'
 import { RootInput } from '@components/Input'
 import { getCoffees } from '@data/coffees'
 import { CoffeeDTO } from '@dtos/CoffeeDTO'
@@ -117,12 +116,12 @@ export function Catalog() {
 
           <FlatList
             data={featured}
-            keyExtractor={(item) => item.name}
+            keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => <CarouselCard data={item} />}
             contentContainerStyle={{
               gap: 32,
               paddingHorizontal: 32,
-              paddingTop: 34,
+              paddingVertical: 34,
             }}
             horizontal
             style={{

@@ -131,7 +131,11 @@ export function Product() {
             <Text color="$gray_100">{quantity}</Text>
             <Icon type="plus" onPress={() => handleIncreaseQuantity()} />
           </HStack>
-          <ButtonPurple title="add" isDisabled={isDisabled} />
+          <ButtonPurple
+            title="add"
+            isDisabled={isDisabled}
+            style={{ flex: 1 }}
+          />
         </HStack>
       </VStack>
     </VStack>
