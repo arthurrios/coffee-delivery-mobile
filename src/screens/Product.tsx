@@ -4,7 +4,10 @@ import { CoffeeIllustration } from '@components/CoffeeIllustration'
 import { Icon } from '@components/Icon'
 import { Label } from '@components/Label'
 import { ReturnButton } from '@components/ReturnButton'
+import { CoffeeDTO } from '@dtos/CoffeeDTO'
 import { HStack, Text, VStack, View } from '@gluestack-ui/themed'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { AppNavigationRoutesProps } from '@routes/index'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect, useState } from 'react'
 
@@ -12,6 +15,15 @@ export function Product() {
   const [size, setSize] = useState<string[]>([])
   const [isDisabled, setIsDisabled] = useState(true)
   const [quantity, setQuantity] = useState(1)
+
+  const navigation = useNavigation<AppNavigationRoutesProps>()
+
+  const route = useRoute()
+  const coffee = route.params as CoffeeDTO
+
+  function handleGoBack() {
+    navigation.goBack()
+  }
 
   function handleSize(selectedSize: string) {
     const categoryAlreadySelected = size.includes(selectedSize)
@@ -46,7 +58,7 @@ export function Product() {
       <StatusBar style="light" />
       <VStack h={590} bgColor="$gray_100" px="$8" pt="$16">
         <HStack justifyContent="space-between" alignItems="center" pb="$5">
-          <ReturnButton theme="light" />
+          <ReturnButton theme="light" onPress={() => handleGoBack()} />
           <Cart />
         </HStack>
         <VStack gap="$5" mt="$3">
@@ -60,7 +72,7 @@ export function Product() {
                   fontSize="$2xs"
                   lineHeight={13}
                 >
-                  special
+                  {coffee.category}
                 </Text>
               </View>
               <Text
@@ -70,7 +82,7 @@ export function Product() {
                 lineHeight={26}
                 pt="$2"
               >
-                Irish
+                {coffee.name}
               </Text>
             </VStack>
             <HStack alignItems="flex-end" mb={-10}>
@@ -90,12 +102,12 @@ export function Product() {
                 fontSize="$4xl"
                 lineHeight={0}
               >
-                3.50
+                {coffee.price.toFixed(2)}
               </Text>
             </HStack>
           </HStack>
           <Text color="$gray_500" fontFamily="$body">
-            Drink made with coffee, Irish whiskey, sugar, and whipped cream
+            {coffee.description}
           </Text>
         </VStack>
       </VStack>

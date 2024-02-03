@@ -19,6 +19,8 @@ import { Tag } from '@components/Tag'
 import { groupCoffeesByCategory } from '@utils/groupCoffeesByCategory'
 import { CoffeeCard } from '@components/CoffeeCard'
 import { Cart } from '@components/Cart'
+import { useNavigation } from '@react-navigation/native'
+import { AppNavigationRoutesProps } from '@routes/index'
 
 export type CoffeeSection = {
   title: string
@@ -30,6 +32,12 @@ export function Catalog() {
   const [groupedCoffees, setGroupedCoffees] = useState<CoffeeSection[]>([])
   const [featured, setFeatured] = useState<CoffeeDTO[]>([])
   const [categories, setCategories] = useState<string[]>([])
+
+  const navigation = useNavigation<AppNavigationRoutesProps>()
+
+  function handleProductDetails(product: CoffeeDTO) {
+    navigation.navigate('product', product)
+  }
 
   function handleCategories(category: string) {
     const categoryAlreadySelected = categories.includes(category)
@@ -117,7 +125,12 @@ export function Catalog() {
           <FlatList
             data={featured}
             keyExtractor={(item) => item.id}
-            renderItem={({ item, index }) => <CarouselCard data={item} />}
+            renderItem={({ item, index }) => (
+              <CarouselCard
+                data={item}
+                onPress={() => handleProductDetails(item)}
+              />
+            )}
             contentContainerStyle={{
               gap: 32,
               paddingHorizontal: 32,
@@ -185,7 +198,7 @@ export function Catalog() {
         section,
       }: SectionListRenderItemInfo<CoffeeDTO, CoffeeSection>) => (
         <View px="$8" mb={index === section.data.length - 1 ? 48 : 0}>
-          <CoffeeCard data={item} />
+          <CoffeeCard data={item} onPress={() => handleProductDetails(item)} />
         </View>
       )}
       showsVerticalScrollIndicator={false}

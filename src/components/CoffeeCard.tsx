@@ -6,7 +6,7 @@ type Props = PressableProps & {
   data: CoffeeDTO
 }
 
-export function CoffeeCard({ data }: Props) {
+export function CoffeeCard({ data, ...props }: Props) {
   if (data) {
     return (
       <Pressable
@@ -28,6 +28,7 @@ export function CoffeeCard({ data }: Props) {
         shadowRadius={8}
         shadowOffset={{ width: 0, height: 2 }}
         shadowOpacity={0.05}
+        {...props}
       >
         <Image
           source={data.image}
