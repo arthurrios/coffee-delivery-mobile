@@ -53,13 +53,12 @@ export function Catalog() {
     }
   }
 
-  async function fetchData() {
-    const data = await getCoffees()
-    setCoffees(data)
-    setGroupedCoffees(groupCoffeesByCategory(data))
-  }
-
   useEffect(() => {
+    async function fetchData() {
+      const data = await getCoffees()
+      setCoffees(data)
+      setGroupedCoffees(groupCoffeesByCategory(data))
+    }
     fetchData()
   }, [])
 
@@ -80,12 +79,24 @@ export function Catalog() {
     filterOnePerCategory()
   }, [coffees])
 
+  useEffect(() => {
+    if (categories.length !== 0) {
+      setGroupedCoffees(
+        groupCoffeesByCategory(coffees).filter((group) =>
+          categories.includes(group.title),
+        ),
+      )
+    } else {
+      setGroupedCoffees(groupCoffeesByCategory(coffees))
+    }
+  }, [categories])
+
   return (
     <SectionList
       ListHeaderComponentStyle={{ marginBottom: 12 }}
       ListHeaderComponent={() => (
         <>
-          <StatusBar style="light" backgroundColor="" />
+          <StatusBar style="light" />
           <VStack h={384} bgColor="$gray_100">
             <Image
               position="absolute"

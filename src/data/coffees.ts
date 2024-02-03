@@ -1,5 +1,5 @@
 export async function getCoffees() {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+  await new Promise((resolve) => setTimeout(resolve, 300))
 
   const coffees = [
     {
