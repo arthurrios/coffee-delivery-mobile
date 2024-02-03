@@ -8,6 +8,7 @@ import { Catalog } from '@screens/Catalog'
 import { Product } from '@screens/Product'
 import { Loading } from '@components/Loading'
 import { Cart } from '@screens/Cart'
+import { OrderConfirmed } from '@screens/OrderConfirmed'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,7 +19,7 @@ export default function App() {
 
   return (
     <GluestackUIProvider config={config}>
-      {fontsLoaded ? <Cart /> : <Loading />}
+      {fontsLoaded ? <OrderConfirmed /> : <Loading />}
     </GluestackUIProvider>
   )
 }
