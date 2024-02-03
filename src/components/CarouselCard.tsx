@@ -23,9 +23,10 @@ export function CarouselCard({ data }: Props) {
         borderBottomLeftRadius={36}
         borderWidth={1}
         borderColor="$gray_700"
-        shadowColor="rgba(0, 0, 0, 0.05)"
+        shadowColor="$black"
         shadowRadius={8}
         shadowOffset={{ width: 0, height: 2 }}
+        shadowOpacity={0.05}
       >
         <Image
           source={data.image}
