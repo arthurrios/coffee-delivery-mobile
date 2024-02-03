@@ -25,8 +25,9 @@ export function ButtonPurple({ title, isDisabled, ...props }: Props) {
       isFocusVisible={isFocused}
       bgColor={isFocused ? '$purple' : '$purple_dark'}
       rounded="$md"
+      px="$2"
+      py="$3"
       isDisabled={isDisabled}
-      flex={1}
       {...props}
     >
       <Text

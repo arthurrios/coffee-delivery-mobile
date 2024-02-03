@@ -24,7 +24,10 @@ export function ButtonYellow({ title, ...props }: Props) {
       isFocusVisible={isFocused}
       bgColor={isFocused ? '$yellow' : '$yellow_dark'}
       rounded="$md"
-      flex={1}
+      h={46}
+      px="$2"
+      py="$3"
+      // flex={1}
       {...props}
     >
       <Text
