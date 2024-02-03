@@ -1,8 +1,9 @@
 export async function getCoffees() {
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  return [
+  const coffees = [
     {
+      id: '1',
       name: 'Espresso',
       category: 'traditional',
       image: require('../assets/coffees/Espresso.png'),
@@ -10,6 +11,7 @@ export async function getCoffees() {
       price: 3.5,
     },
     {
+      id: '2',
       name: 'Americano',
       category: 'traditional',
       image: require('../assets/coffees/Americano.png'),
@@ -17,6 +19,7 @@ export async function getCoffees() {
       price: 3.5,
     },
     {
+      id: '3',
       name: 'Creamy Espresso',
       category: 'traditional',
       image: require('../assets/coffees/Creamy Espresso.png'),
@@ -24,6 +27,7 @@ export async function getCoffees() {
       price: 3.5,
     },
     {
+      id: '4',
       name: 'Latte',
       category: 'traditional',
       image: require('../assets/coffees/Latte.png'),
@@ -31,6 +35,7 @@ export async function getCoffees() {
       price: 3.5,
     },
     {
+      id: '5',
       name: 'Iced Coffee',
       category: 'traditional',
       image: require('../assets/coffees/Iced Coffee.png'),
@@ -38,6 +43,7 @@ export async function getCoffees() {
       price: 3.5,
     },
     {
+      id: '6',
       name: 'Capuccino',
       category: 'sweet',
       image: require('../assets/coffees/Capuccino.png'),
@@ -46,6 +52,7 @@ export async function getCoffees() {
       price: 3.5,
     },
     {
+      id: '7',
       name: 'Mocaccino',
       category: 'sweet',
       image: require('../assets/coffees/Mochaccino.png'),
@@ -53,6 +60,7 @@ export async function getCoffees() {
       price: 3.5,
     },
     {
+      id: '8',
       name: 'Hot Chocolate',
       category: 'sweet',
       image: require('../assets/coffees/Hot Chocolate.png'),
@@ -60,6 +68,7 @@ export async function getCoffees() {
       price: 3.5,
     },
     {
+      id: '9',
       name: 'Cuban',
       category: 'special',
       image: require('../assets/coffees/Cuban.png'),
@@ -67,6 +76,7 @@ export async function getCoffees() {
       price: 3.5,
     },
     {
+      id: '10',
       name: 'Hawaiian',
       category: 'special',
       image: require('../assets/coffees/Hawaiian.png'),
@@ -74,6 +84,7 @@ export async function getCoffees() {
       price: 3.5,
     },
     {
+      id: '11',
       name: 'Arabic',
       category: 'special',
       image: require('../assets/coffees/Arabic.png'),
@@ -81,6 +92,7 @@ export async function getCoffees() {
       price: 3.5,
     },
     {
+      id: '12',
       name: 'Irish',
       category: 'special',
       image: require('../assets/coffees/Irish.png'),
@@ -89,4 +101,6 @@ export async function getCoffees() {
       price: 3.5,
     },
   ]
+
+  return coffees
 }
