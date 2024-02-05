@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { ButtonPurple } from '@components/ButtonPurple'
 import { Cart } from '@components/Cart'
 import { CoffeeIllustration } from '@components/CoffeeIllustration'
@@ -6,6 +7,7 @@ import { Label } from '@components/Label'
 import { ReturnButton } from '@components/ReturnButton'
 import { CoffeeDTO } from '@dtos/CoffeeDTO'
 import { HStack, Text, VStack, View } from '@gluestack-ui/themed'
+import { useCart } from '@hooks/useCart'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { AppNavigationRoutesProps } from '@routes/index'
 import { StatusBar } from 'expo-status-bar'
@@ -19,7 +21,9 @@ export function Product() {
   const navigation = useNavigation<AppNavigationRoutesProps>()
 
   const route = useRoute()
-  const coffee = route.params as CoffeeDTO
+  const product = route.params as CoffeeDTO
+
+  const { addProductCart } = useCart()
 
   function handleGoBack() {
     navigation.goBack()
@@ -42,6 +46,27 @@ export function Product() {
   function handleDecreaseQuantity() {
     if (quantity > 1) {
       setQuantity((prevState) => prevState - 1)
+    }
+  }
+
+  async function handleAddProductToCart() {
+    try {
+      await addProductCart({
+        id: product.id,
+        name: product.name,
+        image: product.image,
+        quantity,
+        size: size[0],
+        price: product.price,
+      })
+
+      navigation.navigate('catalog', {
+        name: product.name,
+        size: size[0],
+        quantity,
+      })
+    } catch (error) {
+      throw error
     }
   }
 
@@ -72,7 +97,7 @@ export function Product() {
                   fontSize="$2xs"
                   lineHeight={13}
                 >
-                  {coffee.category}
+                  {product.category}
                 </Text>
               </View>
               <Text
@@ -82,7 +107,7 @@ export function Product() {
                 lineHeight={26}
                 pt="$2"
               >
-                {coffee.name}
+                {product.name}
               </Text>
             </VStack>
             <HStack alignItems="flex-end" mb={-10}>
@@ -102,12 +127,12 @@ export function Product() {
                 fontSize="$4xl"
                 lineHeight={0}
               >
-                {coffee.price.toFixed(2)}
+                {product.price.toFixed(2)}
               </Text>
             </HStack>
           </HStack>
           <Text color="$gray_500" fontFamily="$body">
-            {coffee.description}
+            {product.description}
           </Text>
         </VStack>
       </VStack>
@@ -147,6 +172,7 @@ export function Product() {
             title="add"
             isDisabled={isDisabled}
             style={{ flex: 1 }}
+            onPress={() => handleAddProductToCart()}
           />
         </HStack>
       </VStack>

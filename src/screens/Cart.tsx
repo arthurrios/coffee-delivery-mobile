@@ -1,23 +1,37 @@
+import { ButtonPurple } from '@components/ButtonPurple'
 import { ButtonYellow } from '@components/ButtonYellow'
 import { CartItem } from '@components/CartItem'
 import { ReturnButton } from '@components/ReturnButton'
-import { getCoffees } from '@data/coffees'
-import { CoffeeDTO } from '@dtos/CoffeeDTO'
 import { HStack, Text, VStack, View } from '@gluestack-ui/themed'
+import { useCart } from '@hooks/useCart'
+import { useNavigation } from '@react-navigation/native'
+import { AppNavigationRoutesProps } from '@routes/index'
+import { ShoppingCart } from 'phosphor-react-native'
 import { useEffect, useState } from 'react'
+
 import { FlatList } from 'react-native'
 
 export function Cart() {
-  const [cartItems, setCartItems] = useState<CoffeeDTO[]>()
+  const { cart, updateProductQuantity } = useCart()
 
-  async function fetchData() {
-    const data = await getCoffees()
-    setCartItems([data[0], data[1], data[2], data[3], data[4], data[5]])
+  const [orderTotal, setOrderTotal] = useState(
+    cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+  )
+
+  const navigation = useNavigation<AppNavigationRoutesProps>()
+
+  function handleQuantityChange(itemId: string, newQuantity: number) {
+    updateProductQuantity(itemId, newQuantity)
   }
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    const updatedOrderTotal = cart.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0,
+    )
+
+    setOrderTotal(updatedOrderTotal)
+  }, [cart])
 
   return (
     <VStack flex={1} bgColor="$gray_900">
@@ -30,17 +44,34 @@ export function Cart() {
         alignItems="center"
         justifyContent="space-between"
       >
-        <ReturnButton theme="dark" />
+        <ReturnButton theme="dark" onPress={() => navigation.goBack()} />
         <Text fontFamily="$heading" fontSize="$sm" color="$gray_200">
           Cart
         </Text>
         <View h="$6" w="$6" />
       </HStack>
       <FlatList
-        data={cartItems}
+        data={cart}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <CartItem data={item} />}
+        renderItem={({ item }) => (
+          <CartItem data={item} onQuantityChange={handleQuantityChange} />
+        )}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <VStack w="$full" h={260} gap="$8" p="$16" alignItems="center">
+            <VStack gap="$3" alignItems="center">
+              <ShoppingCart weight="fill" color="#D7D5D5" />
+              <Text fontSize="$sm" color="$gray_400">
+                Your cart is empty
+              </Text>
+            </VStack>
+            <ButtonPurple
+              onPress={() => navigation.goBack()}
+              title="see catalog"
+              style={{ width: '100%' }}
+            />
+          </VStack>
+        )}
       />
       <VStack
         bgColor="$white"
@@ -62,7 +93,7 @@ export function Cart() {
             lineHeight={26}
             bottom={-3}
           >
-            $ 13.50
+            $ {orderTotal.toFixed(2)}
           </Text>
         </HStack>
         <ButtonYellow title="confirm order" />

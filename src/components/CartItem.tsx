@@ -1,18 +1,30 @@
-import { CoffeeDTO } from '@dtos/CoffeeDTO'
 import { HStack, Image, Text, VStack } from '@gluestack-ui/themed'
 import { useState } from 'react'
 import { Remove } from './Remove'
 import { InputNumber } from './InputNumber'
+import { StorageCartProps } from '@storage/storageCart'
+import { useCart } from '@hooks/useCart'
 
 export interface Props {
-  data: CoffeeDTO
+  data: StorageCartProps
+  onQuantityChange: (itemId: string, newQuantity: number) => void
 }
 
-export function CartItem({ data }: Props) {
-  const [quantity, setQuantity] = useState(1)
+export function CartItem({ data, onQuantityChange }: Props) {
+  const [quantity, setQuantity] = useState(data.quantity)
+  const [itemTotal, setItemTotal] = useState(data.quantity * data.price)
+
+  const { removeProductCart } = useCart()
 
   function handleQuantityChange(newQuantity: number) {
+    const newTotal = newQuantity * data.price
     setQuantity(newQuantity)
+    setItemTotal(newTotal)
+    onQuantityChange(data.id, newQuantity)
+  }
+
+  function handleRemove() {
+    removeProductCart(data.id)
   }
 
   if (data) {
@@ -34,7 +46,7 @@ export function CartItem({ data }: Props) {
             <VStack gap={2} flex={1}>
               <Text color="$gray_100">{data.name}</Text>
               <Text color="$gray_400" fontSize="$sm">
-                227ml
+                {data.size}
               </Text>
             </VStack>
             <Text
@@ -44,15 +56,16 @@ export function CartItem({ data }: Props) {
               lineHeight={20}
               bottom={-3}
             >
-              $ 13.50
+              $ {itemTotal.toFixed(2)}
             </Text>
           </HStack>
           <HStack gap="$2">
             <InputNumber
               quantity={quantity}
               onQuantityChange={handleQuantityChange}
+              itemId={data.id}
             />
-            <Remove />
+            <Remove onPress={() => handleRemove()} />
           </HStack>
         </VStack>
       </HStack>

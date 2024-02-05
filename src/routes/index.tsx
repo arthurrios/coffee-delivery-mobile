@@ -12,7 +12,7 @@ import { Product } from '@screens/Product'
 import { Splash } from '@screens/Splash'
 
 type AppRoutes = {
-  catalog: undefined
+  catalog: { name?: string; size?: string; quantity?: number }
   splash: undefined
   product: CoffeeDTO
   cart: undefined

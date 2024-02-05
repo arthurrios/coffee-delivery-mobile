@@ -1,21 +1,30 @@
 import { HStack, Text } from '@gluestack-ui/themed'
 import { Icon } from './Icon'
+import {
+  storageDecreaseItemQuantity,
+  storageIncreaseItemQuantity,
+} from '@storage/storageCart'
 
 type Props = {
+  itemId: string
   quantity: number
   onQuantityChange: (newQuantity: number) => void
 }
 
-export function InputNumber({ quantity, onQuantityChange }: Props) {
+export function InputNumber({ quantity, onQuantityChange, itemId }: Props) {
   function handleIncreaseQuantity() {
     const newQuantity = quantity + 1
     onQuantityChange(newQuantity)
+
+    storageIncreaseItemQuantity(itemId)
   }
 
   function handleDecreaseQuantity() {
     if (quantity > 1) {
       const newQuantity = quantity - 1
       onQuantityChange(newQuantity)
+
+      storageDecreaseItemQuantity(itemId)
     }
   }
   return (

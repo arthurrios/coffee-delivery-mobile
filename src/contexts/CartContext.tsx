@@ -1,6 +1,8 @@
 /* eslint-disable no-useless-catch */
 import {
   StorageCartProps,
+  storageDecreaseItemQuantity,
+  storageIncreaseItemQuantity,
   storageProductGetAll,
   storageProductRemove,
   storageProductSave,
@@ -8,9 +10,10 @@ import {
 import { ReactNode, createContext, useEffect, useState } from 'react'
 
 export type CartContextDataProps = {
-  addProductCart: (newProduct: StorageCartProps) => Promise<void>
-  removeProductCart: (productId: string) => Promise<void>
+  addProductCart: (newProduct: StorageCartProps) => void
+  removeProductCart: (productId: string) => void
   cart: StorageCartProps[]
+  updateProductQuantity: (itemId: string, newQuantity: number) => void
 }
 
 type CartContextProviderProps = {
@@ -24,32 +27,38 @@ export const CartContext = createContext<CartContextDataProps>(
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [cart, setCart] = useState<StorageCartProps[]>([])
 
-  async function addProductCart(newProduct: StorageCartProps) {
-    try {
-      const storageResponse = await storageProductSave(newProduct)
-      setCart(storageResponse)
-    } catch (error) {
-      throw error
-    }
+  function addProductCart(newProduct: StorageCartProps) {
+    const storageResponse = storageProductSave(newProduct)
+    setCart(storageResponse)
   }
 
-  async function removeProductCart(productId: string) {
-    try {
-      const response = await storageProductRemove(productId)
-      setCart(response)
-    } catch (error) {
-      throw error
+  function removeProductCart(productId: string) {
+    const response = storageProductRemove(productId)
+    setCart(response)
+  }
+
+  function updateProductQuantity(itemId: string, newQuantity: number) {
+    if (newQuantity > 0) {
+      storageIncreaseItemQuantity(itemId)
+    } else {
+      storageDecreaseItemQuantity(itemId)
     }
+
+    const updatedCart = cart.map((item) =>
+      item.id === itemId ? { ...item, quantity: newQuantity } : item,
+    )
+    setCart(updatedCart)
   }
 
   useEffect(() => {
-    storageProductGetAll()
-      .then((products) => setCart(products))
-      .catch((error) => console.log(error))
+    const products = storageProductGetAll()
+    setCart(products)
   }, [])
 
   return (
-    <CartContext.Provider value={{ cart, addProductCart, removeProductCart }}>
+    <CartContext.Provider
+      value={{ cart, addProductCart, removeProductCart, updateProductQuantity }}
+    >
       {children}
     </CartContext.Provider>
   )
