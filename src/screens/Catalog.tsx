@@ -26,6 +26,8 @@ import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
+  withSequence,
   withTiming,
 } from 'react-native-reanimated'
 
@@ -117,16 +119,19 @@ export function Catalog() {
 
   useEffect(() => {
     if (routeParams) {
-      translateY.value = withTiming(height - 96, {
-        duration: 800,
-        easing: Easing.out(Easing.exp),
-      })
-      setTimeout(() => {
-        translateY.value = withTiming(height, {
+      translateY.value = withSequence(
+        withTiming(height - 96, {
           duration: 800,
           easing: Easing.out(Easing.exp),
-        })
-      }, 5000)
+        }),
+        withDelay(
+          5000,
+          withTiming(height, {
+            duration: 800,
+            easing: Easing.out(Easing.exp),
+          }),
+        ),
+      )
     }
   }, [routeParams])
 
