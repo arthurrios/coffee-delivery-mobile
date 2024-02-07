@@ -66,7 +66,7 @@ export function Cart() {
               </Text>
             </VStack>
             <ButtonPurple
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate('catalog')}
               title="see catalog"
               style={{ width: '100%' }}
             />

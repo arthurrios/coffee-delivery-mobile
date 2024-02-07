@@ -1,4 +1,6 @@
 import { Pressable, Text, View } from '@gluestack-ui/themed'
+import { useNavigation } from '@react-navigation/native'
+import { AppNavigationRoutesProps } from '@routes/index'
 import { storageProductGetAll } from '@storage/storageCart'
 import { ShoppingCart } from 'phosphor-react-native'
 import { PressableProps } from 'react-native'
@@ -6,6 +8,7 @@ import { PressableProps } from 'react-native'
 type Props = PressableProps
 
 export function Cart({ ...props }: Props) {
+  const { navigate } = useNavigation<AppNavigationRoutesProps>()
   const { length } = storageProductGetAll()
 
   return (
@@ -15,6 +18,7 @@ export function Cart({ ...props }: Props) {
       w="$8"
       alignItems="center"
       justifyContent="center"
+      onPress={() => navigate('cart')}
       {...props}
     >
       <ShoppingCart

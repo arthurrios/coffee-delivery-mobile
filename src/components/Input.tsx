@@ -1,12 +1,13 @@
 import { Input, InputField, InputIcon, InputSlot } from '@gluestack-ui/themed'
 import { MagnifyingGlass } from 'phosphor-react-native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type Props = {
   placeholder: string
+  onSearch: (query: string) => void
 }
 
-export function RootInput({ placeholder, ...props }: Props) {
+export function RootInput({ placeholder, onSearch, ...props }: Props) {
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState('')
 
@@ -22,7 +23,18 @@ export function RootInput({ placeholder, ...props }: Props) {
 
   const handleInputChange = (text: string) => {
     setInputValue(text)
+    onSearch(inputValue)
   }
+
+  const handleSearchState = () => {
+    onSearch(inputValue)
+  }
+
+  useEffect(() => {
+    if (inputValue === '') {
+      handleSearchState()
+    }
+  }, [inputValue])
 
   return (
     <Input
@@ -53,6 +65,7 @@ export function RootInput({ placeholder, ...props }: Props) {
         onBlur={handleBlur}
         onChangeText={handleInputChange}
         value={inputValue}
+        onSubmitEditing={handleSearchState}
       />
     </Input>
   )

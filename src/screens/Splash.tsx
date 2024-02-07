@@ -45,14 +45,11 @@ export function Splash() {
   })
 
   useEffect(() => {
-    function splashAnimation() {
-      bgColor.value = withTiming(1, { duration: BG_COLOR_ANIMATION_TIME })
-      vectorLogoXPosition.value = withDelay(
-        BG_COLOR_ANIMATION_TIME + 1500,
-        withTiming(0, { duration: VECTOR_LOGO_ANIMATION_TIME }),
-      )
-    }
-    splashAnimation()
+    bgColor.value = withTiming(1, { duration: BG_COLOR_ANIMATION_TIME })
+    vectorLogoXPosition.value = withDelay(
+      BG_COLOR_ANIMATION_TIME + 1500,
+      withTiming(0, { duration: VECTOR_LOGO_ANIMATION_TIME }),
+    )
   }, [])
 
   useEffect(() => {
