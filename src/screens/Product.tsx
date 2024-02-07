@@ -12,11 +12,19 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { AppNavigationRoutesProps } from '@routes/index'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect, useState } from 'react'
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated'
 
 export function Product() {
   const [size, setSize] = useState<string[]>([])
   const [isDisabled, setIsDisabled] = useState(true)
   const [quantity, setQuantity] = useState(1)
+  const [isDisabledAndPressed, setIsDisabledAndPressed] = useState(0)
 
   const navigation = useNavigation<AppNavigationRoutesProps>()
 
@@ -24,6 +32,14 @@ export function Product() {
   const product = route.params as CoffeeDTO
 
   const { addProductCart } = useCart()
+
+  const textColor = useSharedValue(0)
+
+  const textAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      color: textColor.value ? '#E8BAAB' : '#8D8686',
+    }
+  })
 
   function handleGoBack() {
     navigation.goBack()
@@ -51,6 +67,11 @@ export function Product() {
 
   async function handleAddProductToCart() {
     try {
+      if (isDisabled) {
+        setIsDisabledAndPressed(1)
+        return
+      }
+
       await addProductCart({
         id: product.id,
         name: product.name,
@@ -75,6 +96,25 @@ export function Product() {
       setIsDisabled(false)
     } else if (size) {
       setIsDisabled(true)
+    }
+  }, [size])
+
+  useEffect(() => {
+    if (isDisabledAndPressed) {
+      textColor.value = withSequence(
+        withTiming(1),
+        withDelay(1000, withTiming(0)),
+      )
+      const timeout = setTimeout(() => {
+        setIsDisabledAndPressed(0)
+      }, 2500)
+      return () => clearTimeout(timeout)
+    }
+  }, [isDisabledAndPressed])
+
+  useEffect(() => {
+    if (size.length !== 0) {
+      textColor.value = 0
     }
   }, [size])
 
@@ -141,24 +181,33 @@ export function Product() {
       </View>
       <VStack flex={1} w="$full" bgColor="$gray_900" gap="$5" pt={42} px="$8">
         <VStack gap="$2">
-          <Text fontSize="$sm" color="$gray_400">
+          <Animated.Text
+            style={textAnimatedStyle}
+            // fontSize="$sm" color="$gray_400"
+          >
             Select size:
-          </Text>
+          </Animated.Text>
           <HStack gap="$2">
             <Label
               title="114ml"
               isSelected={size.includes('114ml')}
               onPress={() => handleSize('114ml')}
+              reply={isDisabledAndPressed}
+              sizeLength={size.length}
             />
             <Label
               title="140ml"
               isSelected={size.includes('140ml')}
               onPress={() => handleSize('140ml')}
+              reply={isDisabledAndPressed}
+              sizeLength={size.length}
             />
             <Label
               title="227ml"
               isSelected={size.includes('227ml')}
               onPress={() => handleSize('227ml')}
+              reply={isDisabledAndPressed}
+              sizeLength={size.length}
             />
           </HStack>
         </VStack>
