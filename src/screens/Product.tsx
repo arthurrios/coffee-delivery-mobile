@@ -129,17 +129,25 @@ export function Product() {
         <VStack gap="$5" mt="$3">
           <HStack justifyContent="space-between" alignItems="flex-end">
             <VStack gap="$3">
-              <View bgColor="$gray_200" py="$1.5" px="$3" rounded="$full">
-                <Text
-                  color="$white"
-                  fontFamily="$mono"
-                  textTransform="uppercase"
-                  fontSize="$2xs"
-                  lineHeight={13}
+              <HStack>
+                <View
+                  bgColor="$gray_200"
+                  py="$1.5"
+                  px="$3"
+                  rounded="$full"
+                  alignItems="center"
                 >
-                  {product.category}
-                </Text>
-              </View>
+                  <Text
+                    color="$white"
+                    fontFamily="$mono"
+                    textTransform="uppercase"
+                    fontSize="$2xs"
+                    lineHeight={13}
+                  >
+                    {product.category}
+                  </Text>
+                </View>
+              </HStack>
               <Text
                 fontFamily="$heading"
                 color="$white"
