@@ -6,6 +6,7 @@ import { HStack, Text, VStack, View } from '@gluestack-ui/themed'
 import { useCart } from '@hooks/useCart'
 import { useNavigation } from '@react-navigation/native'
 import { AppNavigationRoutesProps } from '@routes/index'
+import { storage } from '@storage/storageCart'
 import { ShoppingCart } from 'phosphor-react-native'
 import { useEffect, useState } from 'react'
 
@@ -22,6 +23,11 @@ export function Cart() {
 
   function handleQuantityChange(itemId: string, newQuantity: number) {
     updateProductQuantity(itemId, newQuantity)
+  }
+
+  function handleConfirmOrder() {
+    storage.clearAll()
+    navigation.navigate('orderConfirmed')
   }
 
   useEffect(() => {
@@ -73,31 +79,33 @@ export function Cart() {
           </VStack>
         )}
       />
-      <VStack
-        bgColor="$white"
-        px="$8"
-        pb="$10"
-        pt="$7"
-        gap="$5"
-        shadowColor="$black"
-        shadowOffset={{ width: 0, height: -2 }}
-        shadowRadius="$4"
-        shadowOpacity={0.08}
-      >
-        <HStack justifyContent="space-between" alignItems="center">
-          <Text color="$gray_200">Order total</Text>
-          <Text
-            color="$gray_200"
-            fontFamily="$heading"
-            fontSize="$xl"
-            lineHeight={26}
-            bottom={-3}
-          >
-            $ {orderTotal.toFixed(2)}
-          </Text>
-        </HStack>
-        <ButtonYellow title="confirm order" />
-      </VStack>
+      {cart.length > 0 && (
+        <VStack
+          bgColor="$white"
+          px="$8"
+          pb="$10"
+          pt="$7"
+          gap="$5"
+          shadowColor="$black"
+          shadowOffset={{ width: 0, height: -2 }}
+          shadowRadius="$4"
+          shadowOpacity={0.08}
+        >
+          <HStack justifyContent="space-between" alignItems="center">
+            <Text color="$gray_200">Order total</Text>
+            <Text
+              color="$gray_200"
+              fontFamily="$heading"
+              fontSize="$xl"
+              lineHeight={26}
+              bottom={-3}
+            >
+              $ {orderTotal.toFixed(2)}
+            </Text>
+          </HStack>
+          <ButtonYellow title="confirm order" onPress={handleConfirmOrder} />
+        </VStack>
+      )}
     </VStack>
   )
 }

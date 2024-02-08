@@ -19,6 +19,7 @@ import Animated, {
   Easing,
   Extrapolation,
   FadeIn,
+  SlideInRight,
   SlideInUp,
   interpolate,
   useAnimatedScrollHandler,
@@ -370,7 +371,7 @@ export function Catalog() {
                   </View>
                   {section.data.map((item, itemIndex) => (
                     <Animated.View
-                      entering={FadeIn.duration(1000)}
+                      entering={SlideInRight.duration(600)}
                       key={item.id}
                     >
                       <View
@@ -390,7 +391,10 @@ export function Catalog() {
           ) : (
             <>
               {queryCoffees.map((item, itemIndex) => (
-                <Animated.View entering={FadeIn.duration(1000)} key={item.id}>
+                <Animated.View
+                  entering={SlideInRight.duration(600)}
+                  key={item.id}
+                >
                   <View
                     px="$8"
                     mb={itemIndex === queryCoffees.length - 1 ? 48 : 0}
