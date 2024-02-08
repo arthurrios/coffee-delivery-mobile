@@ -28,8 +28,8 @@ export function Routes() {
     <Box flex={1} bgColor="$gray_900">
       <NavigationContainer>
         <Navigator screenOptions={{ headerShown: false }}>
-          <Screen name="catalog" component={Catalog} />
           <Screen name="splash" component={Splash} />
+          <Screen name="catalog" component={Catalog} />
           <Screen name="product" component={Product} />
           <Screen name="cart" component={Cart} />
           <Screen name="orderConfirmed" component={OrderConfirmed} />

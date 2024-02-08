@@ -189,12 +189,7 @@ export function Product() {
       </View>
       <VStack flex={1} w="$full" bgColor="$gray_900" gap="$5" pt={42} px="$8">
         <VStack gap="$2">
-          <Animated.Text
-            style={textAnimatedStyle}
-            // fontSize="$sm" color="$gray_400"
-          >
-            Select size:
-          </Animated.Text>
+          <Animated.Text style={textAnimatedStyle}>Select size:</Animated.Text>
           <HStack gap="$2">
             <Label
               title="114ml"
