@@ -32,6 +32,7 @@ export function ButtonPurple({ title, isDisabled = false, ...props }: Props) {
       px="$2"
       py="$3"
       alignItems="center"
+      justifyContent="center"
       {...props}
     >
       <Text
@@ -39,6 +40,8 @@ export function ButtonPurple({ title, isDisabled = false, ...props }: Props) {
         fontFamily="$mono"
         textTransform="uppercase"
         fontSize="$sm"
+        flex={1}
+        textAlign="center"
       >
         {title}
       </Text>

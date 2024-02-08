@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { AppNavigationRoutesProps } from '@routes/index'
 import { storage } from '@storage/storageCart'
 import { useCart } from '@hooks/useCart'
+import Animated, { FadeIn, SlideInLeft } from 'react-native-reanimated'
 
 export function OrderConfirmed() {
   const { clearCart } = useCart()
@@ -24,30 +25,34 @@ export function OrderConfirmed() {
       alignItems="center"
       justifyContent="center"
     >
-      <OrderSvg />
-      <Text
-        fontFamily="$heading"
-        fontSize="$2xl"
-        lineHeight="$2xl"
-        color="$yellow_dark"
-        mt="$10"
-      >
-        Yay! Order confirmed
-      </Text>
-      <Text
-        mt="$2"
-        mb="$16"
-        color="$gray_200"
-        fontSize="$sm"
-        textAlign="center"
-      >
-        Now just wait until your coffee is delivered!
-      </Text>
-      <ButtonPurple
-        title="go to home"
-        style={{ width: '100%' }}
-        onPress={handleConfirmedOrder}
-      />
+      <Animated.View entering={SlideInLeft} style={{ alignItems: 'center' }}>
+        <OrderSvg />
+        <Text
+          fontFamily="$heading"
+          fontSize="$2xl"
+          lineHeight="$2xl"
+          color="$yellow_dark"
+          mt="$10"
+        >
+          Yay! Order confirmed
+        </Text>
+        <Text
+          mt="$2"
+          mb="$16"
+          color="$gray_200"
+          fontSize="$sm"
+          textAlign="center"
+        >
+          Now just wait until your coffee is delivered!
+        </Text>
+      </Animated.View>
+      <Animated.View entering={FadeIn.delay(1000)}>
+        <ButtonPurple
+          title="go to home"
+          style={{ width: '100%' }}
+          onPress={handleConfirmedOrder}
+        />
+      </Animated.View>
     </VStack>
   )
 }
