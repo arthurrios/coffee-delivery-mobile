@@ -1,8 +1,19 @@
 import { Text, VStack } from '@gluestack-ui/themed'
 import OrderSvg from '@assets/order_confirmed.svg'
 import { ButtonPurple } from '@components/ButtonPurple'
+import { useNavigation } from '@react-navigation/native'
+import { AppNavigationRoutesProps } from '@routes/index'
+import { storage } from '@storage/storageCart'
+import { useCart } from '@hooks/useCart'
 
 export function OrderConfirmed() {
+  const { clearCart } = useCart()
+  const { navigate } = useNavigation<AppNavigationRoutesProps>()
+  function handleConfirmedOrder() {
+    storage.clearAll()
+    clearCart()
+    navigate('catalog')
+  }
   return (
     <VStack
       flex={1}
@@ -32,7 +43,11 @@ export function OrderConfirmed() {
       >
         Now just wait until your coffee is delivered!
       </Text>
-      <ButtonPurple title="go to home" style={{ width: '100%' }} />
+      <ButtonPurple
+        title="go to home"
+        style={{ width: '100%' }}
+        onPress={handleConfirmedOrder}
+      />
     </VStack>
   )
 }

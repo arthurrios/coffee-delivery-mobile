@@ -6,10 +6,8 @@ import { HStack, Text, VStack, View } from '@gluestack-ui/themed'
 import { useCart } from '@hooks/useCart'
 import { useNavigation } from '@react-navigation/native'
 import { AppNavigationRoutesProps } from '@routes/index'
-import { storage } from '@storage/storageCart'
 import { ShoppingCart } from 'phosphor-react-native'
 import { useEffect, useState } from 'react'
-
 import { FlatList } from 'react-native'
 
 export function Cart() {
@@ -26,7 +24,6 @@ export function Cart() {
   }
 
   function handleConfirmOrder() {
-    storage.clearAll()
     navigation.navigate('orderConfirmed')
   }
 

@@ -19,6 +19,7 @@ import Animated, {
   Easing,
   Extrapolation,
   FadeIn,
+  LinearTransition,
   SlideInRight,
   SlideInUp,
   interpolate,
@@ -392,8 +393,9 @@ export function Catalog() {
             <>
               {queryCoffees.map((item, itemIndex) => (
                 <Animated.View
-                  entering={SlideInRight.duration(600)}
                   key={item.id}
+                  entering={SlideInRight.duration(600)}
+                  layout={LinearTransition.springify()}
                 >
                   <View
                     px="$8"

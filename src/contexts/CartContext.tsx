@@ -14,6 +14,7 @@ export type CartContextDataProps = {
   removeProductCart: (productId: string) => void
   cart: StorageCartProps[]
   updateProductQuantity: (itemId: string, newQuantity: number) => void
+  clearCart: () => void
 }
 
 type CartContextProviderProps = {
@@ -50,6 +51,10 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     setCart(updatedCart)
   }
 
+  function clearCart() {
+    setCart([])
+  }
+
   useEffect(() => {
     const products = storageProductGetAll()
     setCart(products)
@@ -57,7 +62,13 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
 
   return (
     <CartContext.Provider
-      value={{ cart, addProductCart, removeProductCart, updateProductQuantity }}
+      value={{
+        cart,
+        addProductCart,
+        removeProductCart,
+        updateProductQuantity,
+        clearCart,
+      }}
     >
       {children}
     </CartContext.Provider>
