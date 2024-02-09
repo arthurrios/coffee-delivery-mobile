@@ -20,6 +20,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated'
+import * as Haptics from 'expo-haptics'
 
 export function Product() {
   const [size, setSize] = useState<string[]>([])
@@ -70,6 +71,7 @@ export function Product() {
     try {
       if (isDisabled) {
         setIsDisabledAndPressed(1)
+        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
         return
       }
 
