@@ -6,6 +6,8 @@ import { AppNavigationRoutesProps } from '@routes/index'
 import { storage } from '@storage/storageCart'
 import { useCart } from '@hooks/useCart'
 import Animated, { FadeIn, SlideInLeft } from 'react-native-reanimated'
+import { useEffect } from 'react'
+import { BackHandler } from 'react-native'
 
 export function OrderConfirmed() {
   const { clearCart } = useCart()
@@ -15,6 +17,14 @@ export function OrderConfirmed() {
     clearCart()
     navigate('catalog')
   }
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () =>
+      navigate('catalog'),
+    )
+
+    return () => backHandler.remove()
+  }, [])
   return (
     <VStack
       flex={1}

@@ -21,7 +21,7 @@ type AppRoutes = {
 
 export type AppNavigationRoutesProps = StackNavigationProp<AppRoutes>
 
-const { Navigator, Screen } = createStackNavigator()
+const { Navigator, Screen, Group } = createStackNavigator()
 
 export function Routes() {
   return (
@@ -29,10 +29,12 @@ export function Routes() {
       <NavigationContainer>
         <Navigator screenOptions={{ headerShown: false }}>
           <Screen name="splash" component={Splash} />
-          <Screen name="catalog" component={Catalog} />
           <Screen name="product" component={Product} />
           <Screen name="cart" component={Cart} />
-          <Screen name="orderConfirmed" component={OrderConfirmed} />
+          <Group screenOptions={{ gestureEnabled: false }}>
+            <Screen name="catalog" component={Catalog} />
+            <Screen name="orderConfirmed" component={OrderConfirmed} />
+          </Group>
         </Navigator>
       </NavigationContainer>
     </Box>
