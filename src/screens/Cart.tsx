@@ -2,10 +2,11 @@ import { ButtonPurple } from '@components/ButtonPurple'
 import { ButtonYellow } from '@components/ButtonYellow'
 import { CartItem } from '@components/CartItem'
 import { ReturnButton } from '@components/ReturnButton'
-import { HStack, Pressable, Text, VStack, View } from '@gluestack-ui/themed'
+import { HStack, Text, VStack, View } from '@gluestack-ui/themed'
 import { useCart } from '@hooks/useCart'
 import { useNavigation } from '@react-navigation/native'
 import { AppNavigationRoutesProps } from '@routes/index'
+import { playSound } from '@utils/playSound'
 import { ShoppingCart, Trash } from 'phosphor-react-native'
 import { useEffect, useRef, useState } from 'react'
 import { FlatList } from 'react-native'
@@ -27,6 +28,7 @@ export function Cart() {
   }
 
   function handleConfirmOrder() {
+    playSound()
     navigation.navigate('orderConfirmed')
   }
 

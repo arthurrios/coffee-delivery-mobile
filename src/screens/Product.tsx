@@ -10,6 +10,7 @@ import { HStack, Text, VStack, View } from '@gluestack-ui/themed'
 import { useCart } from '@hooks/useCart'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { AppNavigationRoutesProps } from '@routes/index'
+import { playSound } from '@utils/playSound'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect, useState } from 'react'
 import Animated, {
@@ -80,6 +81,8 @@ export function Product() {
         size: size[0],
         price: product.price,
       })
+
+      playSound()
 
       navigation.navigate('catalog', {
         name: product.name,
