@@ -31,7 +31,7 @@ Edit your final order and with one touch your coffees are on the way!
 4. Phosphor Icons
 5. React Navigation
 6. React Native Reanimated
-7. React Native (AsyncStorage Alternative)
+7. MMKV (AsyncStorage Alternative)
 8. Expo AV
 9. Expo Haptics
 
